@@ -17,6 +17,6 @@
 		@apply container flex flex-row justify-between m-auto items-center;
 	}
 	.navbarTitle {
-		@apply text-2xl font-bold;
+		@apply m-2 text-2xl font-bold;
 	}
 </style>
