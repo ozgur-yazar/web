@@ -10,3 +10,7 @@
 * {
 	font-family: 'Virgil', Fallback, sans-serif;
 }
+
+.centerDiv {
+	@apply flex items-center justify-center h-screen;
+}
