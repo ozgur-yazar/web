@@ -1,10 +1,13 @@
 <template>
-	<button class="navbarButton">
+	<NuxtLink class="navbarButton" :to="to">
 		{{ buttonName }}
-	</button>
+	</NuxtLink>
 </template>
 <script setup lang="ts">
-	const { buttonName } = defineProps(['buttonName']);
+	const { buttonName, to } = defineProps({
+		buttonName: String,
+		to: String,
+	});
 </script>
 
 <style scoped>
