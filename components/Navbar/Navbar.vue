@@ -1,15 +1,15 @@
 <template>
-	<NuxtLink to="/">
-		<nav class="navbar">
-			<div class="navbarItemContainer">
+	<nav class="navbar">
+		<div class="navbarItemContainer">
+			<NuxtLink to="/">
 				<h1 class="navbarTitle">Özgür Yazar</h1>
-				<div>
-					<NavbarButton button-name="Giriş Yap" to="/auth/login" />
-					<NavbarButton button-name="Kayıt Ol" to="/auth/register" />
-				</div>
+			</NuxtLink>
+			<div>
+				<NavbarButton button-name="Giriş Yap" to="/auth/login" />
+				<NavbarButton button-name="Kayıt Ol" to="/auth/register" />
 			</div>
-		</nav>
-	</NuxtLink>
+		</div>
+	</nav>
 </template>
 <style scoped>
 	.navbar {

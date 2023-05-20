@@ -11,10 +11,17 @@
 	font-family: 'Virgil', Fallback, sans-serif;
 }
 
+.centerDiv {
+	@apply flex items-center justify-center sm:mt-80 h-screen;
+}
 .centerForm {
 	@apply flex items-center justify-center sm:mt-80 mt-20;
 }
 
 .authForm {
 	@apply flex flex-col w-80;
+}
+
+.authButton {
+	@apply border-solid border-black border-2 py-1 sm:px-4  px-1 rounded-lg hover:bg-black hover:text-white;
 }
