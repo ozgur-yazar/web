@@ -1,5 +1,5 @@
 <template>
-	<Button @click.prevent class="loginButton"> Giriş Yap</Button>
+	<Button @click.prevent class="loginButton">Giriş Yap</Button>
 </template>
 
 <style scoped>

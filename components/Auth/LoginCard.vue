@@ -1,5 +1,5 @@
 <template>
-	<form class="flex flex-col w-80">
+	<form class="authForm">
 		<AuthInput
 			placeholder="Kullanıcı Adı"
 			type="text"
@@ -12,7 +12,7 @@
 			v-model="password"
 			:value="password"
 		/>
-		<AuthLoginButton />
+		<AuthButtonsLogin />
 		<div class="flex justify-between">
 			<AuthGoogleButton />
 			<div class="mt-3">Şifremi unuttum</div>

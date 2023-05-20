@@ -1,5 +1,5 @@
 <template>
-	<div class="centerDiv">
+	<div class="centerForm">
 		<AuthLoginCard />
 	</div>
 </template>

@@ -11,6 +11,6 @@
 
 <style scoped>
 	.authInput {
-		@apply border-solid border-black border-b-2 mb-3 placeholder:text-black outline-none indent-5;
+		@apply border-solid border-black border-b-2 mb-5 placeholder:text-black outline-none indent-5;
 	}
 </style>

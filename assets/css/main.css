@@ -11,6 +11,10 @@
 	font-family: 'Virgil', Fallback, sans-serif;
 }
 
-.centerDiv {
-	@apply flex items-center justify-center h-screen;
+.centerForm {
+	@apply flex items-center justify-center sm:mt-80 mt-20;
+}
+
+.authForm {
+	@apply flex flex-col w-80;
 }
