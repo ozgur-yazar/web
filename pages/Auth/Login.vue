@@ -4,14 +4,14 @@
 			<AuthInput
 				placeholder="E-Posta"
 				type="email"
-				v-model="userLoginForm.email"
-				:value="userLoginForm.email"
+				v-model="IUserLoginForm.email"
+				:value="IUserLoginForm.email"
 			/>
 			<AuthInput
 				placeholder="Şifre"
 				type="password"
-				v-model="userLoginForm.password"
-				:value="userLoginForm.password"
+				v-model="IUserLoginForm.password"
+				:value="IUserLoginForm.password"
 			/>
 			<AuthLoginButton />
 			<div class="flex justify-between">
@@ -23,9 +23,9 @@
 </template>
 
 <script setup lang="ts">
-	import { UserLoginForm } from '~/types';
+	import { IUserLoginForm } from '~/types';
 
-	const userLoginForm: UserLoginForm = reactive({
+	const IUserLoginForm: IUserLoginForm = reactive({
 		email: '',
 		password: '',
 	});

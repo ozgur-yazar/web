@@ -1,4 +1,4 @@
-export interface UserRegisterForm {
+export interface IUserRegisterForm {
 	name: string;
 	username: string;
 	email: string;
@@ -6,7 +6,14 @@ export interface UserRegisterForm {
 	passwordConfirm: string;
 }
 
-export interface UserLoginForm {
+export interface IUserLoginForm {
 	email: string;
 	password: string;
+}
+
+export interface IUser {
+	uid: string;
+	name: string;
+	username: string;
+	email: string | null;
 }

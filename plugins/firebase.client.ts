@@ -5,6 +5,7 @@ import { getFirestore } from 'firebase/firestore';
 
 export default defineNuxtPlugin((nuxtApp) => {
 	const config = useRuntimeConfig();
+	// const { initUser } = useFirebaseAuth();
 
 	const firebaseConfig = {
 		apiKey: config.public.FB_API_KEY,
@@ -30,4 +31,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 	// nuxtApp.vueApp.provide('analytics', analytics);
 	// nuxtApp.provide('analytics', analytics);
+
+	// initUser();
 });
