@@ -25,3 +25,7 @@
 .authButton {
 	@apply border-solid border-black border-2 py-1 sm:px-4  px-1 rounded-lg hover:bg-black hover:text-white;
 }
+
+.spinner {
+	@apply inline-block h-5 w-5 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite];
+}

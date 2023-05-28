@@ -1,5 +1,4 @@
 <template>
-	<!-- <button @click="trigger">Tıkla</button> -->
 	<div class="centerForm">
 		<form class="authForm" @submit.prevent="registerUser(userRegisterForm)">
 			<AuthInput
@@ -37,7 +36,11 @@
 				:value="userRegisterForm.passwordConfirm"
 				required
 			/>
-			<button class="authButton">Kayıt Ol</button>
+
+			<button class="authButton">
+				<div class="spinner" role="status" v-if="isLoading"></div>
+				Kayıt Ol
+			</button>
 
 			<div class="flex justify-between">
 				<AuthGoogleButton />
@@ -51,7 +54,7 @@
 
 <script setup lang="ts">
 	import { IUserRegisterForm } from '~/types';
-	const { registerUser } = useFirebaseAuth();
+	const { registerUser, isLoading } = useFirebaseAuth();
 
 	const userRegisterForm: IUserRegisterForm = reactive({
 		name: '',

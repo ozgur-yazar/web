@@ -8,7 +8,7 @@
 		<p>{{ description }}</p>
 		<span class="closeButtonSpan" @click="setVisiblity(false)">
 			<svg
-				class="closeButtonSvg"
+				:class="isError ? 'closeButtonSvgError' : 'closeButtonSvg'"
 				role="button"
 				xmlns="http://www.w3.org/2000/svg"
 				viewBox="0 0 20 20"
@@ -39,5 +39,8 @@
 	}
 	.closeButtonSvg {
 		@apply fill-current h-6 w-6 text-green-700;
+	}
+	.closeButtonSvgError {
+		@apply fill-current h-6 w-6 text-red-700;
 	}
 </style>

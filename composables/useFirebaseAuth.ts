@@ -1,62 +1,11 @@
-// import {
-// 	createUserWithEmailAndPassword,
-// 	signInWithEmailAndPassword,
-// 	onAuthStateChanged,
-// 	UserCredential,
-// 	getAuth,
-// } from 'firebase/auth';
-
-// //do not return credentials return bool for loading bar
-// export const createUserWithEmail = async (
-// 	email: string,
-// 	password: string,
-// ): Promise<void | UserCredential> => {
-// 	const auth = getAuth();
-// 	return await createUserWithEmailAndPassword(auth, email, password)
-// 		.then((credentials) => credentials)
-// 		.catch((error) => {
-// 			const errorCode = error.code;
-// 			const errorMessage = error.message;
-// 		});
-// };
-
-// export const signInUserWithEmailPassword = async (
-// 	email: string,
-// 	password: string,
-// ): Promise<void | UserCredential> => {
-// 	const auth = getAuth();
-// 	return await signInWithEmailAndPassword(auth, email, password)
-// 		.then((credentials) => credentials)
-// 		.catch((error) => {
-// 			const errorCode = error.code;
-// 			const errorMessage = error.message;
-// 		});
-// };
-
-// export const signOutUser = async () => {
-// 	const auth = getAuth();
-// 	const result = await auth.signOut();
-// 	return result;
-// };
-
-// export const initUser = async () => {
-// 	const auth = getAuth();
-// 	const userCookie = useCookie('userCookie');
-// 	const router = useRouter();
-
-// 	onAuthStateChanged(auth, (user) => {
-// 		if (!user) {
-// 			router.push('/');
-// 		}
-
-// 		// @ts-ignore
-// 		userCookie.value = user; //ignore error because nuxt will serialize to json
-// 	});
-// };
-
-import { error } from 'console';
-import { Auth, createUserWithEmailAndPassword, AuthError } from 'firebase/auth';
+import {
+	Auth,
+	createUserWithEmailAndPassword,
+	getAuth,
+	onAuthStateChanged,
+} from 'firebase/auth';
 import { Firestore, doc, setDoc } from 'firebase/firestore';
+
 import formatUser from '~/helpers/formatUser';
 import { IUser, IUserRegisterForm } from '~/types';
 
@@ -65,16 +14,34 @@ export default function () {
 		$auth: Auth;
 		$firestore: Firestore;
 	};
+	const isLoading = useState('isLoading', () => false);
+	const { userData, setUserData } = useUserData();
+
+	const { setVisiblity, setError, setTitleAndDescription } = useAlertBox();
 
 	const registerUser = async (
 		userRegisterForm: IUserRegisterForm,
 	): Promise<boolean> => {
+		isLoading.value = true;
 		try {
+			//handle mismatch password
+			if (userRegisterForm.password !== userRegisterForm.passwordConfirm) {
+				setTimeout(() => {
+					setError(true);
+					setVisiblity(true);
+					setTitleAndDescription('Opss..', 'Şifreler uyuşmuyor.');
+					isLoading.value = false;
+				}, 1000);
+				return false;
+			}
+			//create firebase user
 			const userCreds = await createUserWithEmailAndPassword(
 				$auth,
 				userRegisterForm.email,
 				userRegisterForm.password,
 			);
+
+			//save user to database
 			if (userCreds) {
 				const formattedUser: IUser = formatUser(
 					userRegisterForm,
@@ -84,15 +51,48 @@ export default function () {
 					doc($firestore, 'users', formattedUser.uid),
 					formattedUser,
 				);
-				return true;
+				setUserData(formattedUser);
+				setVisiblity(true);
+				setError(false);
+				setTitleAndDescription('(￣▽￣)', 'Başarıyla Kayıt Oldun.');
 			}
+
+			isLoading.value = false;
+			return true;
 		} catch (error: unknown) {
 			if (error instanceof Error) {
-				console.log(error.message);
+				setError(true);
+				setVisiblity(true);
+				setTitleAndDescription('Opss..', error.message);
 			}
-			return false;
+			isLoading.value = false;
 		}
+		isLoading.value = false;
+
 		return false;
+	};
+
+	const initUser = async () => {
+		const auth = getAuth();
+
+		const userCookie = useCookie('userCookie');
+
+		const router = useRouter();
+
+		onAuthStateChanged(auth, (user) => {
+			if (!user) {
+				//if signed out
+				router.push('/');
+			}
+
+			// @ts-ignore
+			userCookie.value = userData; //ignore error because nuxt will serialize to json
+
+			// $fetch('/api/auth', {
+			// 	method: 'POST',
+			// 	body: { user },
+			// });
+		});
 	};
 
 	//Refactor
@@ -101,24 +101,10 @@ export default function () {
 		return result;
 	};
 
-	// const initUser = async () => {
-	// 	const auth = getAuth();
-	// 	const userCookie = useCookie('userCookie');
-	// 	const router = useRouter();
-
-	// 	onAuthStateChanged(auth, (firebaseUser) => {
-	// 		if (!firebaseUser) {
-	// 			router.push('/');
-	// 		}
-
-	// 		// @ts-ignore
-	// 		userCookie.value = user; //ignore error because nuxt will serialize to json
-	// 	});
-	// };
-
 	return {
 		registerUser,
 		signOutUser,
-		// initUser,
+		isLoading,
+		initUser,
 	};
 }
