@@ -5,11 +5,13 @@ import {
 	onAuthStateChanged,
 } from 'firebase/auth';
 import { Firestore, doc, setDoc } from 'firebase/firestore';
+import { json } from 'stream/consumers';
 
 import formatUser from '~/helpers/formatUser';
 import { IUser, IUserRegisterForm } from '~/types';
 
 export default function () {
+	const router = useRouter();
 	const { $auth, $firestore } = useNuxtApp() as unknown as {
 		$auth: Auth;
 		$firestore: Firestore;
@@ -55,6 +57,7 @@ export default function () {
 				setVisiblity(true);
 				setError(false);
 				setTitleAndDescription('(￣▽￣)', 'Başarıyla Kayıt Oldun.');
+				router.push('/auth/login');
 			}
 
 			isLoading.value = false;
@@ -72,28 +75,20 @@ export default function () {
 		return false;
 	};
 
-	const initUser = async () => {
-		const auth = getAuth();
+	// const initUser = async () => {
+	// 	const auth = getAuth();
 
-		const userCookie = useCookie('userCookie');
+	// 	const userCookie = useCookie('userCookie');
 
-		const router = useRouter();
+	// 	onAuthStateChanged(auth, (user) => {
+	// 		if (!user) {
+	// 			//if signed out
+	// 			router.push('/');
+	// 		}
 
-		onAuthStateChanged(auth, (user) => {
-			if (!user) {
-				//if signed out
-				router.push('/');
-			}
-
-			// @ts-ignore
-			userCookie.value = userData; //ignore error because nuxt will serialize to json
-
-			// $fetch('/api/auth', {
-			// 	method: 'POST',
-			// 	body: { user },
-			// });
-		});
-	};
+	// 		userCookie.value = JSON.stringify(userData);
+	// 	});
+	// };
 
 	//Refactor
 	const signOutUser = async () => {
@@ -105,6 +100,6 @@ export default function () {
 		registerUser,
 		signOutUser,
 		isLoading,
-		initUser,
+		// initUser,
 	};
 }
