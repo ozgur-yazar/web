@@ -1,6 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
-const nodeEnv = process.env.NUXT_NODE_ENV;
-
 export default defineNuxtConfig({
 	css: ['~/assets/css/main.css'],
 	app: {
